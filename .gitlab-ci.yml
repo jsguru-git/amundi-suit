@@ -1,0 +1,100 @@
+#stages:
+#  - test
+#  - build
+#  - deploy
+#  - cleanup
+#
+#test_php:
+#  image: thecodingmachine/php:7.2-v1-cli
+#  stage: test
+#  cache:
+#    paths:
+#      - vendor
+#      - $HOME/.composer
+#  services:
+#    - mysql:5.7
+#    - schickling/mailcatcher:latest
+#  variables:
+#    MYSQL_ROOT_PASSWORD: apideo
+#    MYSQL_DATABASE: amundi
+#    MYSQL_USER: amundi
+#    MYSQL_PASSWORD: apideo
+#    APACHE_DOCUMENT_ROOT: public
+#    MAILER_URL: smtp://schickling-mailcatcher:1025?encryption=&auth_mode=
+#    DATABASE_URL: mysql://amundi:apideo@mysql:3306/amundi-suit
+#  before_script:
+#    - cd /home/docker && composer create-project --stability=dev thecodingmachine/washingmachine washingmachine ^2.0 && cd -
+#    - cd src
+#    - composer install
+#  script:
+#    - ci/run_tests.sh
+#  artifacts:
+#    when: always
+#    expire_in: 1 month
+#    paths:
+#    - coverage
+#    - clover.xml
+
+#build_php_image:
+#  image: docker:git
+#  stage: build
+#  services:
+#    - docker:dind
+#  variables:
+#    DOCKER_DRIVER: overlay2
+#  before_script:
+#    - cd src
+#  script:
+#   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN git.thecodingmachine.com:444
+#   - docker build -t git.thecodingmachine.com:444/tcm-projects/amundi-suit:${CI_COMMIT_REF_SLUG} --build-arg SSH_PRIVATE_KEY_GITLAB_TCM="${SSH_PRIVATE_KEY_GITLAB_TCM}" --build-arg SSH_KNOWN_HOSTS_GITLAB_TCM="${SSH_KNOWN_HOSTS_GITLAB_TCM}" .
+#   - docker push git.thecodingmachine.com:444/tcm-projects/amundi-suit:${CI_COMMIT_REF_SLUG}
+#  only:
+#    - branches
+#  except:
+#    - master
+
+#deploy:
+#  image: lwolf/kubectl_deployer:latest
+#  stage: deploy
+#  variables:
+#    KUBECONFIG: /root/.kube/config
+#  script:
+#    - mkdir ~/.kube
+#    - echo "$KUBE_CONFIG" > ~/.kube/config
+#    - kubectl create namespace ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG} || true
+#    - kubectl -n ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG} delete all --all
+#    - kubectl -n ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG} delete secret tcmregistry || true
+#    - cd src/ci/kubernetes
+#    - kubectl -n ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG} create secret docker-registry tcmregistry --docker-username=ci.gitlab@thecodingmachine.com --docker-password=$CI_PASSWD --docker-server=git.thecodingmachine.com:444 --docker-email=ci.gitlab@thecodingmachine.com
+#    - sed -e "s/#ENVIRONMENT#/${CI_COMMIT_REF_SLUG}/g" web.yaml.template > web.yaml
+#    - sed -e "s/#ENVIRONMENT#/${CI_COMMIT_REF_SLUG}/g" ingress.yaml.template > ingress.yaml
+#    - kubectl -n ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG} apply -f .
+#  environment:
+#    name: review/$CI_COMMIT_REF_NAME
+#    url: http://$CI_COMMIT_REF_SLUG.amundi-suit.test.thecodingmachine.com
+#    on_stop: stop_deploy
+#  only:
+#    - branches
+#  except:
+#    - master
+#
+#stop_deploy:
+#  stage: cleanup
+#  image: thecodingmachine/gitlab-registry-cleaner:latest
+#  variables:
+#    KUBECONFIG: /root/.kube/config
+#  script:
+#    - /delete_image.sh git.thecodingmachine.com:444/tcm-projects/amundi-suit:${CI_COMMIT_REF_SLUG}
+#    - mkdir ~/.kube
+#    - echo "$KUBE_CONFIG" > ~/.kube/config
+#    - kubectl -n ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG} delete all --all
+#    - kubectl -n ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG} delete secret tcmregistry || true
+#    - kubectl delete namespace ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG}
+#  when: manual
+#  environment:
+#    name: review/$CI_COMMIT_REF_NAME
+#    action: stop
+#  only:
+#  - branches
+#  except:
+#  - master

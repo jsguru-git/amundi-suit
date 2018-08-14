@@ -1,0 +1,211 @@
+@media (min-width: $break-lg){
+    body{
+        padding-top: 100px;
+    }
+    #header{
+        height: 100px;
+    }
+    #logo{
+        margin-top: 28px;
+        float: left;
+        position: relative;
+        z-index: 2;
+        img{
+            width: 119px;
+            height: 46px;
+        }
+    }
+    
+    #logo_footer{
+        margin-top: 37px;
+        position: relative;
+        z-index: 3;
+        img{
+            width: 150px;
+            height: 58px;
+        }
+    }
+    
+    #main_nav{
+        background-color: #16244c;
+        float: right;
+        display: inline-block !important;
+        height: 100px;
+        z-index: 3;
+        position: relative;
+        > ul{
+            display: inline-block;
+            > li{
+                float: left;
+                position: relative;
+                > a{
+                    line-height: 100px;
+                    padding: 0 60px;
+                }
+                .sub-menu{
+                    position: absolute;
+                    width: 100%;
+                    z-index: 3;
+                }
+                .sub-menu-bis{
+                    box-shadow: -0.1px 6px 10px rgba(0, 0, 0, 0.18);
+                    position: absolute;
+                    right: 0;
+                    top: 100px;
+                }
+                &.current{
+                    > a{
+                        background-color: white;
+                        color: $bleu_clair;
+                        text-decoration: none;
+                    }
+                }
+                &:hover{
+                    > a{
+                        background-color: #F0F0F0;
+                        color: $bleu_clair;
+                        text-decoration: none;
+                    }
+                }
+                &:hover{
+                    .sub-menu, .sub-menu-bis{
+                        display: block;
+                    }
+                }
+                &:last-child{
+                    > a{
+                        padding: 0 18px;
+                    }
+                }
+            }
+        }
+    }
+    
+    #footer{
+        padding: 93px 0;
+    }
+    
+    #intro_accueil{
+        margin-top: -100px;
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        z-index: 1;
+        img{
+            float: right;
+            max-width: none;
+        }
+        .col_g{
+            padding-right: 0;
+            border-right: 2px solid #354d8b;
+            border-bottom: 2px solid #354d8b;
+            padding-bottom: 56px;
+        }
+        &.bis{
+            .col_g{
+                border: 0;
+                padding: 0;
+            }
+        }
+    }
+    
+    .etape{
+        .nbr{
+            width: 97px;
+            height: 97px;
+            font-size: 46px;
+            line-height: 97px;
+            position: absolute;
+        }
+        .container{
+            position: relative;
+        }
+    }
+    
+    #etape1{
+        .container{
+            border-left: 2px solid #354d8b;
+            border-bottom: 2px solid #354d8b;
+        }
+        .nbr{
+            left: -48px;
+            //top: 277px;
+        }
+    }
+    #etape2{
+        text-align: right;
+        .container{
+            border-right: 2px solid #354d8b;
+            border-bottom: 2px solid #354d8b;
+        }
+        .nbr{
+            right: -48px;
+            top: 50px;
+        }
+        h2{
+            &:after{
+                left: auto;
+                right: 0;
+            }    
+        }
+    }
+    #etape3{
+        .container{
+            &:before{
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 2px;
+                height: 60px;
+                content: " ";
+                background-color: #354d8b;
+            }
+        }
+        .nbr{
+            left: -48px;
+            top: 50px;
+        }
+    }
+    
+    .contenu{
+        img{
+            max-width: none;
+            float: left;
+        }
+        &#contenu2{
+            img{
+                float: right;
+            }
+        }
+    }
+    #advisory{
+        .col-md-4, .col-md-6{
+            padding: 0 70px;
+        }
+    }
+    #features{
+        .col_d{
+            padding-top: 90px;
+            padding-left: 80px;
+        }
+        .col_d_bis{
+            padding: 80px 15px 40px 30px;
+            .bandeau{
+                top: 80px;
+            }
+        }
+    }
+    #dashboard_aside{
+        width: 294px;
+        z-index: 2;
+        position: fixed;
+        top: 100px;
+        right: -294px;
+        bottom: 0;
+    }
+    #slider{
+        .slider-nav{
+            padding: 50px 180px;
+        }
+    }
+}

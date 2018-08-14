@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+<style>
+.login-form {
+	margin: 10% auto;
+}
+.main-div {
+	width: 300px;
+	margin: 0 auto;
+}
+</style>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<div class="login-form">
+			<div class="main-div">
+				{% block fos_user_content %}{% endblock %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+@media (max-width: $break-md - 1){
+    #intro_accueil{
+        border-bottom: 2px solid #354d8b;
+        padding-bottom: 15px;
+    }
+    .etape{
+        padding: 15px 0;
+        border-bottom: 2px solid #354d8b;
+        p.intro{
+            font-size: 16px;
+        }
+    }
+    
+    #intro_accueil h1, .etape h2{
+        font-size: 25px;
+        margin: 15px 0;
+    }
+    .contenu{
+        img{
+            margin: 20px 0;
+        }
+    }
+}
+@media (max-width: $break-lg - 1){
+    #main_nav{
+        background-color: #16244c;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        left: 0;
+        z-index: 2;
+        > ul{
+            > li{
+                > a{
+                    padding: 5px 15px;
+                }
+            }
+        }
+    }
+}

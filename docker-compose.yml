@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+
+  traefik:
+    image: traefik:1.7-alpine
+    command: --docker --logLevel=ERROR
+    labels:
+      - traefik.enable=false
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  php-apache:
+    image: git.thecodingmachine.com:444/tcm-projects/amundi-suit:php-apache
+    labels:
+      - traefik.backend=php-apache
+      - traefik.frontend.rule=Host:amundi-suit.localhost
+    environment:
+      - WEB_DOCUMENT_ROOT=/var/www/html/web
+      - PHP_MEMORY_LIMIT=2G
+      - APPLICATION_UID=1000
+      - APPLICATION_GID=1000
+    working_dir: /var/www/html
+    volumes:
+      - ./src:/var/www/html:rw
+
+  mysql:
+    image: mysql:5.7
+    labels:
+      - traefik.enable=false
+    environment:
+      - MYSQL_ROOT_PASSWORD=apideo
+      - MYSQL_DATABASE=amundi-suit
+      - MYSQL_USER=amundi
+      - MYSQL_PASSWORD=apideo
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./services/mysql/utf8mb4.cnf:/etc/mysql/conf.d/utf8mb4.cnf:ro
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.7
+    labels:
+      - traefik.backend=phpmyadmin
+      - traefik.frontend.rule=Host:phpadmin.amundi-suit.localhost
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=apideo
+    volumes:
+      - phpmyadmin_data:/sessions
+
+  mail:
+    image: schickling/mailcatcher
+    labels:
+      - traefik.backend=mail
+      - traefik.frontend.rule=Host:mail.amundi-suit.localhost
+      - traefik.port=1080
+
+volumes:
+
+  mysql_data:
+    driver: local
+
+  phpmyadmin_data:
+    driver: local

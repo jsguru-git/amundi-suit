@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('build/vue/app.css') }}">
+<link rel="stylesheet" href="{{ asset('build/css/theme.css') }}">
+{% endblock %}
+
+{% block content %}
+<div id="app" data-vue-routing="{{ vueRouting }}"></div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('build/js/theme.js') }}"></script>
+<script src="{{ asset('build/vue/app.js') }}"></script>
+{% endblock %}

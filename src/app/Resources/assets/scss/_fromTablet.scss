@@ -1,0 +1,103 @@
+@media (min-width: $break-md){
+    #intro_accueil{
+        h1{
+            margin: 170px 0 35px 0;
+        }
+        .col_d{
+            padding-left: 43px;
+        }
+    }
+    #etape1{
+        .container{
+            padding-top: 63px;
+            padding-left: 73px;
+            padding-bottom: 59px;
+        }
+        p.intro{
+            margin-bottom: 93px;
+        }
+        p:not(.intro){
+            margin-bottom: 16px + 27px;
+        }
+        h2{
+            margin-bottom: 18px;
+        }
+        .more{
+            margin-top: 52px;
+        }
+        img{
+            margin-top: 70px;
+        }
+    }
+    #etape2{
+        h2{
+            margin-bottom: 18px;
+        }
+        .container{
+            padding-bottom: 59px;
+            padding-right: 73px;
+            padding-top: 42px;
+        }
+        .more{
+            margin-top: 58px;
+        }
+        img{
+            margin-top: 60px;
+        }
+    }
+    #etape3{
+        h2{
+            margin-bottom: 18px;
+        }
+        .container{
+            padding-bottom: 59px;
+            padding-left: 73px;
+            padding-top: 42px;
+        }
+        img{
+            margin-top: 60px;
+        }
+    }
+    .contenu{
+        .col_texte{
+            padding: 0 45px !important;
+        }
+    }
+    #advisory{
+        padding: 90px 0;
+    }
+    
+    #features{
+        .col_g{
+            padding-bottom: 40px;
+        }
+    }
+    
+    #myaccount{
+        padding: 90px 0 55px;
+    }
+    
+    #slider{
+        .text-center{
+            p{
+                position: absolute;
+                left: 0;
+                right: 0;
+                transform: translateY(-50%);
+                top: 50%;
+                margin: 0;
+                padding: 0;
+            }
+        }
+        .blue, .black{
+            &:after{
+                bottom: auto;
+                z-index: 5;
+                top: 50%;
+                right: -41px;
+                left: auto;
+                transform: translateY(-50%) rotate(45deg);
+            }
+        }
+    }
+}
